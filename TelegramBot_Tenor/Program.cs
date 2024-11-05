@@ -62,7 +62,7 @@ namespace TelegramBotExperiments
                 var message = update.Message;
                 if (message.Text?.ToLower() == "/start")
                 {
-                    await botClient.SendTextMessageAsync(message.Chat.Id, "Введите ключевые слова для поиска GIF.");
+                    await botClient.SendMessage(message.Chat.Id, "Введите ключевые слова для поиска GIF.");
                     return;
                 }
                 var request = "https://tenor.googleapis.com/v2/search?q=" + message.Text + "&key=" + api_key + "&limit=1" + "&random=true";
@@ -79,15 +79,15 @@ namespace TelegramBotExperiments
                         {
                             string gifUrl = root.results[0].media_formats.gif.url;
                             if (!string.IsNullOrEmpty(gifUrl))
-                                await botClient.SendTextMessageAsync(message.Chat.Id, "Вот ваша гифка: \n" + gifUrl);
+                                await botClient.SendMessage(message.Chat.Id, "Вот ваша гифка: \n" + gifUrl);
                             else
-                                await botClient.SendTextMessageAsync(message.Chat.Id, "Гифка не найдена.");
+                                await botClient.SendMessage(message.Chat.Id, "Гифка не найдена.");
                         }
                         else
-                            await botClient.SendTextMessageAsync(message.Chat.Id, "Сообщение не принято.");
+                            await botClient.SendMessage(message.Chat.Id, "Сообщение не принято.");
                     }
                     else
-                        await botClient.SendTextMessageAsync(message.Chat.Id, "Ошибка при получении данных.");
+                        await botClient.SendMessage(message.Chat.Id, "Ошибка при получении данных.");
                 }
             }
         }
@@ -99,7 +99,7 @@ namespace TelegramBotExperiments
 
         static void Main(string[] args)
         {
-            Console.WriteLine("Запущен бот " + bot.GetMeAsync().Result.FirstName);
+            Console.WriteLine("Запущен бот " + bot.GetMe().Result.FirstName);
 
             var cts = new CancellationTokenSource();
             var cancellationToken = cts.Token;
